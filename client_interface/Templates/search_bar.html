@@ -1,0 +1,46 @@
+<div class="d-flex justify-content-center">
+  <form class="form-inline" method="get" action="{% url 'client_interface:flight_list' %}">
+    <div class="row">
+      {% csrf_token %}
+      <div class="col-auto">
+        <input type="text"
+            hx-post="{% url 'client_interface:origin_list' %}"
+            hx-target='#origin_result'
+            hx-trigger="keyup changed delay:500ms"
+            name="origin"
+            class="form-control mr-2"
+            placeholder="From where?"
+            id="originInput"/>
+        <div id="origin_result" class="mt-2" hx-trigger="keyup changed delay:500ms" ></div>
+      </div>
+      <div class="col-auto">
+        <input type="text"
+            hx-post="{% url 'client_interface:departure_list' %}"
+            hx-target='#departure_result'
+            hx-trigger="keyup changed delay:500ms"
+            name="departure"
+            class="form-control mr-2"
+            placeholder="Where to go?"
+            id="departureInput"/>
+        <div id="departure_result" class="mt-2" hx-trigger="keyup changed delay:500ms" ></div>
+      </div>
+      <div class="col-auto">
+        <input type="date" class="form-control mr-2" placeholder="Select date" name="date_of_flight">
+      </div>
+      <div class="col-auto">
+        <input type="text" class="form-control mr-2" placeholder="Passengers count" name="passengers">
+      </div>
+      <div class="col-auto">
+        <select name="class" class="form-select" aria-label="Default select example" style="width: 150px;">
+          <option value="EC">Economy</option>
+          <option value="BC">Premium</option>
+          <option value="FC">First class</option>
+        </select>
+      </div>
+      <div class="col-auto">
+        <button class="btn btn-primary" type="submit" >Search flights</button>
+      </div>
+    </div>
+  </form>
+</div>
+

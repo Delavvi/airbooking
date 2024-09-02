@@ -1,0 +1,23 @@
+{% if origin_results %}
+    <ul class="list-group col-xs-4">
+        {% for city in origin_results %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <button class="btn btn-light" type="button" onclick="selectOriginCity('{{ city.name }}')">
+                    {{ city.name }}
+                </button>
+            </li>
+        {% endfor %}
+    </ul>
+{% elif departure_results %}
+    <ul class="list-group col-xs-4">
+        {% for city in departure_results %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <button class="btn btn-light" type="button" onclick="selectDepartureCity('{{ city.name }}')">
+                    {{ city.name }}
+                </button>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No search results</p>
+{% endif %}

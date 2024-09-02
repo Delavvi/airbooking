@@ -1,0 +1,56 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<section class="background-section">
+    {% include  'search_bar.html' %}
+</section>
+<section>
+{% for flight in page_obj %}
+<div style="display: flex; justify-content: center;">
+  <div style="display: flex; gap: 10px;">
+    <div class="card border-success mb-3" style="width: 450px; height: 150px;">
+      <div class="card-header bg-transparent border-success">
+        <h5 class="card-title">
+          {{ flight.date_of_flight|date:"Y-m-d H:i" }}
+          <span style="margin-left: 10px;">
+            {{ flight.arriving_date|date:"Y-m-d H:i" }}
+          </span>
+        </h5>
+      </div>
+      <div class="card-body text-success">
+        <p class="card-text">{{ flight.departure_airport }} to {{ flight.arrival_airport }}</p>
+      </div>
+    </div>
+    <div class="card border-success mb-3" style="width: 200px; height: 150px;">
+      <div class="card-body text-success">
+        <p class="card-text">Per Person</p>
+        <p class="card-text">{{ flight.seat_price|floatformat:2 }}</p>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#FlightModal" style="display: flex; justify-content: center; align-items: center; width: 145px; height: 50px;"
+        hx-get="{% url 'client_interface:flight' pk=flight.pk%}" hx-target="#FlightModal .modal-body" hx-trigger="click">
+          Show Details
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+{% include  'modal/modal.html' %}
+    <div class="pagination mt-4">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1" class="btn btn-primary">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-primary">previous</a>
+            {% endif %}
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="btn btn-primary">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-primary">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</section>
+{% endblock %}

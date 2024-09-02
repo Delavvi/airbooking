@@ -1,0 +1,215 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+.aircraft {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 250px;
+}
+
+.nose {
+    width: 80px;
+    height: 80px;
+    background-color: gray;
+    border-radius: 50% 50% 0 0;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.steering-wheel {
+    width: 30px;
+    height: 30px;
+    background-color: black;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.wings {
+    display: flex;
+    justify-content: space-between;
+    width: 300px;
+    margin-bottom: 20px;
+}
+
+.wing {
+    width: 80px;
+    height: 30px;
+    background-color: gray;
+    position: relative;
+}
+
+.left-wing::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 40px;
+    height: 10px;
+    background-color: darkgray;
+    transform: translateY(-50%);
+}
+
+.right-wing::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 40px;
+    height: 10px;
+    background-color: darkgray;
+    transform: translateY(-50%);
+}
+
+.fuselage {
+    width: 130px;
+    background-color: #fff;
+    border: 2px solid gray;
+    padding: 10px;
+}
+
+.seat-section {
+    margin: 20px 0;
+}
+
+.seat-row {
+    display: flex;
+    justify-content: space-around;
+    margin: 5px 0;
+}
+
+.seat {
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    line-height: 25px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.seat.business {
+    background-color: lightblue;
+}
+
+.seat.first_class {
+    background-color: orange;
+}
+
+.seat.economy {
+    background-color: lightgray;
+}
+
+.seat.reserved {
+    background-color: red;
+}
+
+.seat.selected {
+  background-color: lightgreen;
+  }
+
+.seat[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    background: #333;
+    color: #fff;
+    padding: 2px 5px;
+    border-radius: 3px;
+    white-space: nowrap;
+    transform: translate(-50%, -100%);
+}
+
+.tail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80px;
+    position: relative;
+    margin-top: 20px;
+}
+
+.vertical-stabilizer {
+    width: 20px;
+    height: 50px;
+    background-color: gray;
+    border-radius: 0 0 50% 50%;
+    position: relative;
+}
+
+.rudder {
+    width: 10px;
+    height: 40px;
+    background-color: darkgray;
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.horizontal-stabilizer {
+    width: 100px;
+    height: 20px;
+    background-color: gray;
+    position: absolute;
+    top: -10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.elevator {
+    width: 20px;
+    height: 10px;
+    background-color: darkgray;
+}
+
+.left-elevator {
+    transform: rotate(-20deg);
+}
+
+.right-elevator {
+    transform: rotate(20deg);
+}
+
+.legend {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+}
+
+.legend-seat {
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+    border: 1px solid #ccc;
+}
+
+.legend-seat.business {
+    background-color: lightblue;
+}
+
+.legend-seat.first-class {
+    background-color: orange;
+}
+
+.legend-seat.economy {
+    background-color: lightgray;
+}
+
+.legend-seat.reserved {
+    background-color: red;
+}

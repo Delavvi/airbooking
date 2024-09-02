@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aircraft Layout</title>
+    <link rel="stylesheet" href="{% static 'airplane.css' %}">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script id="seat_data" type="application/json">
+        {{ seat_data_json|safe }}
+    </script>
+    <script src="{% static 'seat_map.js' %}"></script>
+</head>
+<body>
+    <div class="legend">
+        <div class="legend-item">
+            <div class="legend-seat business"></div>
+            <span>Business Class</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-seat first_class"></div>
+            <span>First Class</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-seat economy"></div>
+            <span>Economy Class</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-seat reserved"></div>
+            <span>Reserved</span>
+        </div>
+    </div>
+
+    <div class="aircraft" id="airplane">
+        <div class="nose">
+            <div class="steering-wheel"></div>
+        </div>
+        <div class="wings">
+            <div class="wing left-wing"></div>
+            <div class="wing right-wing"></div>
+        </div>
+        <div class="fuselage" id="seat_map">
+            <!-- Business Class Seats -->
+            <div class="seat-section">
+                {% for seat in business_seats %}
+                    {% if forloop.first or forloop.counter0|divisibleby:seats_per_business_row %}
+                        <div class="seat-row">
+                    {% endif %}
+                        <div v-on:click="AddRebooking({{ seat.pk }})" :class="seatClass({ number: '{{ seat.number }}', pk: {{ seat.pk }}, booked: {{ seat.booked|yesno:'true,false' }}, get_flight_class_display: '{{ seat.get_flight_class_display }}' })" title="Seat {{ seat.number }} - {{ seat.get_flight_class_display }}">{{ seat.number }}</div>
+                    {% if forloop.counter|divisibleby:seats_per_business_row or forloop.last %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <!-- First Class Seats -->
+            <div class="seat-section">
+                {% for seat in first_class_seats %}
+                    {% if forloop.first or forloop.counter0|divisibleby:seats_per_first_class_row %}
+                        <div class="seat-row">
+                    {% endif %}
+                        <div v-on:click="AddRebooking({{ seat.pk }})" :class="seatClass({ number: '{{ seat.number }}', pk: {{ seat.pk }}, booked: {{ seat.booked|yesno:'true,false' }}, get_flight_class_display: '{{ seat.get_flight_class_display }}' })" title="Seat {{ seat.number }} - {{ seat.get_flight_class_display }}">{{ seat.number }}</div>
+                    {% if forloop.counter|divisibleby:seats_per_first_class_row or forloop.last %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <!-- Economy Class Seats -->
+        <div class="seat-section">
+            {% for seat in economy_seats %}
+                {% if forloop.first or forloop.counter0|divisibleby:seats_per_economy_row %}
+                    <div class="seat-row">
+                {% endif %}
+                    {% if not seat.booked %}
+                        <div v-on:click="AddRebooking({{ seat.pk }})" :class="seatClass({ number: '{{ seat.number }}', pk: {{ seat.pk }}, booked: {{ seat.booked|yesno:"true,false" }}, get_flight_class_display: '{{ seat.get_flight_class_display }}' })" title="Seat {{ seat.number }} - {{ seat.get_flight_class_display }}">{{ seat.number }}</div>
+                    {% else %}
+                        <div class="seat reserved" title="Seat {{ seat.number }} - {{ seat.get_flight_class_display }}">{{ seat.number }}</div>
+                    {% endif %}
+                {% if forloop.counter|divisibleby:seats_per_economy_row or forloop.last %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="tail">
+            <div class="vertical-stabilizer">
+                <div class="rudder"></div>
+            </div>
+            <div class="horizontal-stabilizer">
+                <div class="elevator left-elevator"></div>
+                <div class="elevator right-elevator"></div>
+            </div>
+        </div>
+        <button @click="loadPage" class="btn btn-primary" data-url="{% url 'client_interface:services' pk=flight_id %}">Continue booking</button>
+    </div>
+</body>
+</html>
